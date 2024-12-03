@@ -1,4 +1,4 @@
-![Thumbnail]()
+![Thumbnail](https://github.com/mariacatiana/imagens/blob/main/Thumbnail%20Mobile%20Blogging%20with%20React%20Native.png)
 
 
 # 📱 Blogging Mobile - FIAP Tech Challenge
