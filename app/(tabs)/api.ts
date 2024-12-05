@@ -2,7 +2,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL, // Ajuste conforme sua configuração
+  baseURL: process.env.NEXT_PUBLIC_API_URL, 
   headers: {
     'Content-Type': 'application/json',
   },
@@ -15,7 +15,7 @@ api.interceptors.request.use(
     if (token && config.headers) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
-    return config; // Retorna o config diretamente, sem envolver em uma nova Promise
+    return config; 
   },
   (error) => {
     return Promise.reject(error);
@@ -27,7 +27,7 @@ api.interceptors.response.use(
   async (error) => {
     if (error.response?.status === 401) {
       console.log('Unauthorized. Redirecting to login...');
-      // Aqui você pode gerenciar a navegação para a tela de login
+     
     }
     return Promise.reject(error);
   }

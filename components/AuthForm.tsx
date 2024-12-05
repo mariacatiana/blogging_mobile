@@ -10,8 +10,8 @@ import {
 
 interface AuthFormProps {
   isLogin: boolean;
-  onSubmit: (data: { username: string; password: string }) => void; // Nova propriedade
-  onRegisterPress: () => void; // Nova propriedade
+  onSubmit: (data: { username: string; password: string }) => void; 
+  onRegisterPress: () => void;
 }
 
 const AuthForm: React.FC<AuthFormProps> = ({ isLogin, onSubmit, onRegisterPress }) => {
@@ -25,7 +25,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ isLogin, onSubmit, onRegisterPress 
     setError(null);
 
     try {
-      onSubmit({ username, password }); // Chamada da função passada como prop
+      onSubmit({ username, password });
     } catch (err) {
       setError('An error occurred. Please try again.');
     } finally {
@@ -65,14 +65,26 @@ const AuthForm: React.FC<AuthFormProps> = ({ isLogin, onSubmit, onRegisterPress 
         {isLogin ? (
           <>
             Don't have an account?{' '}
-            <Text style={styles.link} onPress={onRegisterPress}>
+            <Text
+              style={styles.link}
+              onPress={() => {
+                console.log('Navigating to SignUp');
+                onRegisterPress();
+              }}
+            >
               Sign up
             </Text>
           </>
         ) : (
           <>
             Already have an account?{' '}
-            <Text style={styles.link} onPress={onRegisterPress}>
+            <Text
+              style={styles.link}
+              onPress={() => {
+                console.log('Navigating to Login');
+                onRegisterPress();
+              }}
+            >
               Login
             </Text>
           </>

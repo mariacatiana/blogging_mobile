@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { NavigationProp } from '@react-navigation/native';
-
 import Header from '../../components/Header';
 import Search from '@/components/Search';
 import Category from '@/components/Category';
+import PostPage from '@/components/PostPage';
 
 type RootStackParamList = {
   Home: undefined;
@@ -16,7 +16,21 @@ type Props = {
   navigation: NavigationProp<RootStackParamList, 'Home'>;
 };
 
-export default function HomeScreen({ navigation }: Props) {
+interface Post {
+  _id: string;
+  title: string;
+  category: string;
+  date: string;
+  cover?: string | null;
+  content: string;
+  author: {
+    username: string;
+    avatar?: string | null;
+  };
+  createdAt: string;
+}
+
+export default function HomeScreen() {
   const categoryColors = {
     News: '#4A148C',
     Community: '#8B0000',
@@ -31,42 +45,36 @@ export default function HomeScreen({ navigation }: Props) {
 
   const tags = Object.keys(categoryColors);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [searchResults, setSearchResults] = useState<Post[]>([]);
 
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
         <Header />
-
-        {/* Barra de Pesquisa */}
         <View style={styles.searchContainer}>
           <Search
-            onCategorySelect={(category: string | null) =>
-              console.log('Category:', category)
-            }
-            onSearch={(results: string[]) =>
-              console.log('Search results:', results)
-            }
+            onCategorySelect={(category: string | null) => setSelectedCategory(category)}
+            onSearch={(results: Post[]) => setSearchResults(results)}
           />
         </View>
       </View>
 
-      {/* Categorias */}
-      <View style={styles.categoryContainer}>
-        <Category
-          tags={tags}
-          selectedCategory={selectedCategory}
-          onCategorySelect={(category) => setSelectedCategory(category)}
-          categoryColors={categoryColors}
-        />
-      </View>
-
-      {/* Conteúdo Principal */}
       <ScrollView contentContainerStyle={styles.content}>
-        {/* Aqui você pode adicionar outros elementos ou componentes */}
+        <View style={styles.categoryContainer}>
+          <Category
+            tags={tags}
+            selectedCategory={selectedCategory}
+            onCategorySelect={(category) => setSelectedCategory(category)}
+            categoryColors={categoryColors}
+          />
+        </View>
+
+        <PostPage selectedCategory={selectedCategory} post={searchResults} />
       </ScrollView>
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -78,22 +86,25 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     position: 'absolute',
-    top: '30%',
+    top: '80%',
     left: 20,
     right: 20,
     zIndex: 10,
     alignItems: 'center',
   },
-  categoryContainer: {
-    
-    
-    zIndex: 5,
+  categoryContainer: {    
+    paddingHorizontal: 2,
   },
-  content: {
-    paddingTop: 16,
+  
+  content: { 
+    marginTop: 28,   
     paddingBottom: 16,
   },
 });
+
+
+
+
 
 
 
